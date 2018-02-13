@@ -40,15 +40,12 @@ class Task
 
     protected function LoadFromId(?int $Id = null)
     {
-
         if ($Id > 0) {
             $task = &$this->TaskDataSource[array_search($Id, array_column($this->TaskDataSource, 'TaskId'), true)];
 
             $this->TaskId = &$task['TaskId'];
             $this->TaskName = &$task['TaskName'];
             $this->TaskDescription = &$task['TaskDescription'];
-        } else {
-            return null;
         }
     }
 
