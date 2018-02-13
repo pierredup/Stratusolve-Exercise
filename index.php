@@ -116,8 +116,25 @@
     });
 
     function updateTaskList() {
-        $.post("list_tasks.php", function( data ) {
-            $( "#TaskList" ).html( data );
+        $.get("Task_Data.json", function( data ) {
+            var html = '';
+
+            if (data.length > 0) {
+                $.each(data, function (index, task) {
+                    console.log(task);
+                    html += '<a id="' + task.TaskId + '" href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">\
+                                <h4 class="list-group-item-heading">' + task.TaskName + '</h4>\
+                                <p class="list-group-item-text">' + task.TaskDescription + '</p>\
+                            </a>';
+                });
+            } else {
+                html = '<a id="newTask" href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">\
+                            <h4 class="list-group-item-heading">No Tasks Available</h4>\
+                            <p class="list-group-item-text">Click here to create one</p>\
+                        </a>';
+            }
+
+            $( "#TaskList" ).html(html);
         });
     }
     updateTaskList();
