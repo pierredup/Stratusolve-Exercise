@@ -83,6 +83,9 @@
 
             console.log('Task ID: '+triggerElement.attr("id"));
         }
+    }).on('hide.bs.modal', function () {
+        taskName.val('');
+        taskDescription.val('');
     });
 
     $('#saveTask').click(function() {
