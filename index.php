@@ -1,14 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: johangriesel
- * Date: 13052016
- * Time: 08:48
- * @package    ${NAMESPACE}
- * @subpackage ${NAME}
- * @author     johangriesel <info@stratusolve.com>
- */
-?>
 <!DOCTYPE html>
 <html>
 <head>

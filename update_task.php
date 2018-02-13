@@ -4,4 +4,3 @@
  */
 require('Task.class.php');
 // Assignment: Implement this script
-?>
