@@ -15,13 +15,13 @@
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">
-                <form action="update_task.php" method="post">
+                <form action="update_task.php" method="post" id="taskForm">
                     <div class="row">
                         <div class="col-md-12" style="margin-bottom: 5px;;">
-                            <input id="InputTaskName" type="text" placeholder="Task Name" class="form-control">
+                            <input id="InputTaskName" name="InputTaskName" type="text" placeholder="Task Name" class="form-control">
                         </div>
                         <div class="col-md-12">
-                            <textarea id="InputTaskDescription" placeholder="Description" class="form-control"></textarea>
+                            <textarea id="InputTaskDescription" name="InputTaskDescription" placeholder="Description" class="form-control"></textarea>
                         </div>
                     </div>
                 </form>
@@ -61,6 +61,8 @@
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var currentTaskId = -1;
+    var taskForm = $('#taskForm');
+
     $('#myModal').on('show.bs.modal', function (event) {
         var triggerElement = $(event.relatedTarget); // Element that triggered the modal
         var modal = $(this);
@@ -75,18 +77,26 @@
             console.log('Task ID: '+triggerElement.attr("id"));
         }
     });
+
     $('#saveTask').click(function() {
-        //Assignment: Implement this functionality
-        alert('Save... Id:'+currentTaskId);
-        $('#myModal').modal('hide');
-        updateTaskList();
+        $.ajax({
+            url: 'update_task.php',
+            method: 'POST',
+            data: taskForm.serialize() + '&action=add'
+        }).done(function (result) {
+            alert('Save... Id:'+result);
+            $('#myModal').modal('hide');
+            updateTaskList();
+        });
     });
+
     $('#deleteTask').click(function() {
         //Assignment: Implement this functionality
         alert('Delete... Id:'+currentTaskId);
         $('#myModal').modal('hide');
         updateTaskList();
     });
+
     function updateTaskList() {
         $.post("list_tasks.php", function( data ) {
             $( "#TaskList" ).html( data );

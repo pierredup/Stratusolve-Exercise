@@ -1,6 +1,20 @@
 <?php
-/**
- * This script is to be used to receive a POST with the object information and then either updates, creates or deletes the task object
- */
+
 require('Task.class.php');
-// Assignment: Implement this script
+
+$task = new Task();
+
+switch ($_POST['action'] ?? null) {
+    case 'add':
+        $task->Create($_POST['InputTaskName'] ?? '', $_POST['InputTaskDescription'] ?? '');
+        $task->Save();
+
+        echo $task->TaskId;
+        break;
+
+    case 'edit':
+        break;
+
+    case 'delete':
+        break;
+}

@@ -11,30 +11,33 @@ class Task
 
     public $TaskDescription;
 
-    protected $TaskDataSource = [];
+    private $TaskDataSource = [];
 
     public function __construct($Id = null)
     {
         $this->TaskDataSource = json_decode(file_get_contents('Task_Data.json'), true) ?: [];
 
-        if (!$this->LoadFromId($Id)) {
-            $this->Create();
-        }
+        /*if (!$this->LoadFromId($Id)) {
+
+        }*/
     }
 
-    protected function Create()
+    public function Create(string $name, string $description)
     {
-        // This function needs to generate a new unique ID for the task
-        // Assignment: Generate unique id for the new task
         $this->TaskId = $this->getUniqueId();
-        $this->TaskName = 'New Task';
-        $this->TaskDescription = 'New Description';
+        $this->TaskName = $name;
+        $this->TaskDescription = $description;
+
+        $this->TaskDataSource[] = [
+            'TaskId' => $this->TaskId,
+            'TaskName' => $this->TaskName,
+            'TaskDescription' => $this->TaskDescription,
+        ];
     }
 
     protected function getUniqueId()
     {
-        // Assignment: Code to get new unique ID
-        return -1; // Placeholder return for now
+        return max(array_column($this->TaskDataSource, 'TaskId')) + 1;
     }
 
     protected function LoadFromId($Id = null)
@@ -48,7 +51,7 @@ class Task
 
     public function Save()
     {
-        //Assignment: Code to save task here
+        file_put_contents('Task_Data.json', json_encode($this->TaskDataSource, JSON_PRETTY_PRINT));
     }
 
     public function Delete()
