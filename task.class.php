@@ -35,12 +35,13 @@ class Task
 
     protected function getUniqueId()
     {
-        return max(array_column($this->TaskDataSource, 'TaskId')) + 1;
+        return (int) max(array_column($this->TaskDataSource, 'TaskId') ?: [0]) + 1;
     }
 
     protected function LoadFromId(?int $Id = null)
     {
-        if ($Id) {
+
+        if ($Id > 0) {
             $task = &$this->TaskDataSource[array_search($Id, array_column($this->TaskDataSource, 'TaskId'), true)];
 
             $this->TaskId = &$task['TaskId'];
