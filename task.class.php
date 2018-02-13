@@ -17,9 +17,7 @@ class Task
     {
         $this->TaskDataSource = json_decode(file_get_contents('Task_Data.json'), true) ?: [];
 
-        /*if (!$this->LoadFromId($Id)) {
-
-        }*/
+        $this->LoadFromId((int) $Id);
     }
 
     public function Create(string $name, string $description)
@@ -40,10 +38,14 @@ class Task
         return max(array_column($this->TaskDataSource, 'TaskId')) + 1;
     }
 
-    protected function LoadFromId($Id = null)
+    protected function LoadFromId(?int $Id = null)
     {
         if ($Id) {
-            // Assignment: Code to load details here...
+            $task = &$this->TaskDataSource[array_search($Id, array_column($this->TaskDataSource, 'TaskId'))];
+
+            $this->TaskId = &$task['TaskId'];
+            $this->TaskName = &$task['TaskName'];
+            $this->TaskDescription = &$task['TaskDescription'];
         } else {
             return null;
         }

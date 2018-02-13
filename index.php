@@ -63,6 +63,9 @@
     var currentTaskId = -1;
     var taskForm = $('#taskForm');
 
+    var taskName = $('#InputTaskName');
+    var taskDescription = $('#InputTaskDescription');
+
     $('#myModal').on('show.bs.modal', function (event) {
         var triggerElement = $(event.relatedTarget); // Element that triggered the modal
         var modal = $(this);
@@ -74,15 +77,19 @@
             modal.find('.modal-title').text('Task details');
             $('#deleteTask').show();
             currentTaskId = triggerElement.attr("id");
+
+            taskName.val(triggerElement.find('.list-group-item-heading').text());
+            taskDescription.val(triggerElement.find('.list-group-item-text').text());
+
             console.log('Task ID: '+triggerElement.attr("id"));
         }
     });
 
     $('#saveTask').click(function() {
         $.ajax({
-            url: 'update_task.php',
+            url: taskForm.prop('action'),
             method: 'POST',
-            data: taskForm.serialize() + '&action=add'
+            data: taskForm.serialize() + '&TaskId=' + currentTaskId
         }).done(function (result) {
             alert('Save... Id:'+result);
             $('#myModal').modal('hide');

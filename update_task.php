@@ -2,19 +2,16 @@
 
 require('Task.class.php');
 
-$task = new Task();
-
-switch ($_POST['action'] ?? null) {
-    case 'add':
+if (isset($_POST['TaskId'])) {
+    if (-1 === $_POST['TaskId']) {
+        $task = new Task();
         $task->Create($_POST['InputTaskName'] ?? '', $_POST['InputTaskDescription'] ?? '');
-        $task->Save();
+    } else {
+        $task = new Task($_POST['TaskId']);
+        $task->TaskName = $_POST['InputTaskName'] ?? '';
+        $task->TaskDescription = $_POST['InputTaskDescription'] ?? '';
+    }
 
-        echo $task->TaskId;
-        break;
-
-    case 'edit':
-        break;
-
-    case 'delete':
-        break;
+    $task->Save();
+    echo $task->TaskId;
 }
