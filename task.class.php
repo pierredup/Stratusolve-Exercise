@@ -13,7 +13,7 @@ class Task
 
     private $TaskDataSource = [];
 
-    public function __construct($Id = null)
+    public function __construct(?int $Id = null)
     {
         $this->TaskDataSource = json_decode(file_get_contents('Task_Data.json'), true) ?: [];
 
@@ -33,12 +33,12 @@ class Task
         ];
     }
 
-    protected function getUniqueId()
+    protected function getUniqueId(): int
     {
         return (int) max(array_column($this->TaskDataSource, 'TaskId') ?: [0]) + 1;
     }
 
-    protected function LoadFromId(?int $Id = null)
+    protected function LoadFromId(int $Id)
     {
         if ($Id > 0) {
             $task = &$this->TaskDataSource[array_search($Id, array_column($this->TaskDataSource, 'TaskId'), true)];
@@ -49,12 +49,12 @@ class Task
         }
     }
 
-    public function Save()
+    public function Save(): void
     {
         file_put_contents('Task_Data.json', json_encode($this->TaskDataSource, JSON_PRETTY_PRINT));
     }
 
-    public function Delete()
+    public function Delete(): void
     {
         unset($this->TaskDataSource[array_search($this->TaskId, array_column($this->TaskDataSource, 'TaskId'), true)]);
     }
