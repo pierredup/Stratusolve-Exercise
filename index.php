@@ -98,10 +98,18 @@
     });
 
     $('#deleteTask').click(function() {
-        //Assignment: Implement this functionality
-        alert('Delete... Id:'+currentTaskId);
-        $('#myModal').modal('hide');
-        updateTaskList();
+        $.ajax({
+            url: taskForm.prop('action'),
+            method: 'POST',
+            data: {
+                'Action': 'DELETE',
+                'TaskId': currentTaskId
+            }
+        }).done(function (result) {
+            alert('Delete... Id:'+currentTaskId);
+            $('#myModal').modal('hide');
+            updateTaskList();
+        });
     });
 
     function updateTaskList() {

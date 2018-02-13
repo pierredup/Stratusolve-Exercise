@@ -41,7 +41,7 @@ class Task
     protected function LoadFromId(?int $Id = null)
     {
         if ($Id) {
-            $task = &$this->TaskDataSource[array_search($Id, array_column($this->TaskDataSource, 'TaskId'))];
+            $task = &$this->TaskDataSource[array_search($Id, array_column($this->TaskDataSource, 'TaskId'), true)];
 
             $this->TaskId = &$task['TaskId'];
             $this->TaskName = &$task['TaskName'];
@@ -58,6 +58,6 @@ class Task
 
     public function Delete()
     {
-        //Assignment: Code to delete task here
+        unset($this->TaskDataSource[array_search($this->TaskId, array_column($this->TaskDataSource, 'TaskId'), true)]);
     }
 }

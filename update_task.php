@@ -3,7 +3,10 @@
 require('Task.class.php');
 
 if (isset($_POST['TaskId'])) {
-    if (-1 === $_POST['TaskId']) {
+    if ('DELETE' === ($_POST['Action'] ?? '')) {
+        $task = new Task($_POST['TaskId']);
+        $task->Delete();
+    } else if (-1 === $_POST['TaskId']) {
         $task = new Task();
         $task->Create($_POST['InputTaskName'] ?? '', $_POST['InputTaskDescription'] ?? '');
     } else {
@@ -15,3 +18,4 @@ if (isset($_POST['TaskId'])) {
     $task->Save();
     echo $task->TaskId;
 }
+
